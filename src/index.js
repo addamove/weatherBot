@@ -11,25 +11,29 @@ const _ = require('lodash');
 
 const bot = new Bot(config.testBotConfig);
 
-// const state = {};
-
-// const users = {};
-// async function f(params) {
-//   const r = await w.currentWeather('Москва');
-//   console.log(r);
-// }
-// f();
-//
-
 bot.onMessage(async (peer, message) => {
   ai.getSpeech(message.content.text).then(async (res) => {
     await bot.sendTextMessage(peer, res.fulfillment.speech);
 
-    if (_.has(res, 'parameters.weather') && _.has(res, "parameters['geo-city']")) {
+    if (
+      _.has(res, 'parameters.weather') &&
+      (_.has(res, "parameters['geo-city']") && res.parameters['geo-city'] !== '')
+    ) {
+      if (_.has(res, 'parameters.date')) {
+        if (res.parameters.date === '') {
+          const r = await w.currentWeather(res.parameters['geo-city']);
+          bot.sendTextMessage(peer, r);
+          return;
+        }
+        const r = await w.weatherForecast(res.parameters['geo-city']);
+        bot.sendTextMessage(peer, r);
+
+        return;
+      }
       const r = await w.currentWeather(res.parameters['geo-city']);
       bot.sendTextMessage(peer, r);
+    } else {
+      bot.sendTextMessage(peer, 'Что-то пошло не так, возможно я не понимаю название города.');
     }
   });
 });
-
-bot.onInteractiveEvent(async (event) => {});
