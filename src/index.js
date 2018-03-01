@@ -32,8 +32,6 @@ bot.onMessage(async (peer, message) => {
       }
       const r = await w.currentWeather(res.parameters['geo-city']);
       bot.sendTextMessage(peer, r);
-    } else {
-      bot.sendTextMessage(peer, 'Что-то пошло не так, возможно я не понимаю название города.');
     }
   });
 });
