@@ -20,7 +20,10 @@ bot.onMessage(async (peer, message) => {
       (_.has(res, "parameters['geo-city']") && res.parameters['geo-city'] !== '')
     ) {
       if (_.has(res, 'parameters.date') || _.has(res, 'parameters.date-period')) {
-        if (res.parameters.date === '' && !_.has(res, 'parameters.date-period')) {
+        if (
+          res.parameters.date === '' &&
+          (_.has(res, 'parameters.date-period') && res.parameters['date-period'] === '')
+        ) {
           const r = await w.currentWeather(res.parameters['geo-city']);
           bot.sendTextMessage(peer, r);
           return;
