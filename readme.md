@@ -19,11 +19,8 @@ eslint airbnb config
 
 * **addamove** - _Initial work_ - [addamove](https://github.com/addamove)
 
-## Usage
+## About
 
-* keep all functions in API
-* keep all data in config
+Says weather to user, using API.AI module 
 
-## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
